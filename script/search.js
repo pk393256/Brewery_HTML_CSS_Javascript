@@ -1,38 +1,31 @@
-let option=document.getElementsByTagName('select');
-let value='';
-fetch('https://api.openbrewerydb.org/breweries?per_page=9')
-.then((res)=>res.json())
-.then((data)=>{
-    displayData(data,'')
-})
-option[0].addEventListener('change',()=>{
-    // console.log(option[0].value)
+let input=document.getElementById('input');
+let timer=0;
 
-    value=option[0].value;
-    
-    getData(value)
-    
-    
-
-})
-// console.log(option[0]);
-async function getData(value){
-    if(value==''){
-        const response=await fetch(`https://api.openbrewerydb.org/breweries?per_page=9`);
-        const data=await response.json();
-        console.log(data);
-        displayData(data,value)
+    function debounce(d){
         
-    }else{
-        const response=await fetch(`https://api.openbrewerydb.org/breweries?by_type=${value}&per_page=9`);
-        const data=await response.json();
-        console.log(data)
-       
-        displayData(data,value)
+         let input = document.getElementById('input');
+         let element=input.value;
+      if (timer>0) {clearTimeout(timer)}
+      
+        timer=setTimeout(()=>{
+            fetchDetails(element)
+        },d)
+        
+      
     }
-}   
 
-function displayData(data,value){
+input.addEventListener('onchange',()=>{
+    debounce(600)
+})
+function fetchDetails(element){
+    fetch(`https://api.openbrewerydb.org/breweries?by_name=${element}&per_page=9`)
+    .then((res)=>res.json())
+    .then((data)=>{
+        console.log(data)
+        displayData(data);
+    })
+}
+function displayData(data){
     // console.log(value)
     let table=document.getElementById('table');
     table.innerHTML='';
@@ -61,13 +54,10 @@ function displayData(data,value){
         let th4=document.createElement('TH');
         let th5=document.createElement('TH');
             th1.innerText=data[i].name;
-            if(value==''){
-                console.log("All")
+            
+                // console.log("All")
                 th2.innerText=data[i].brewery_type;
-            }else{
-                console.log(value)
-                th2.innerText=value;
-            }
+            
             th3.innerText=data[i].city;
             th4.innerText=data[i].state;
             th5.innerHTML='<button>More Details</button>';
