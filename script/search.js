@@ -1,5 +1,6 @@
 let input=document.getElementById('input');
-let timer=0;
+console.log(input)
+var timer=0;
 
     function debounce(d){
         
@@ -14,9 +15,10 @@ let timer=0;
       
     }
 
-input.addEventListener('onchange',()=>{
+function searchFun(){
+    console.log(1)
     debounce(600)
-})
+}
 function fetchDetails(element){
     fetch(`https://api.openbrewerydb.org/breweries?by_name=${element}&per_page=9`)
     .then((res)=>res.json())
