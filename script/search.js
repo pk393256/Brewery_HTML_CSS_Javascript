@@ -17,7 +17,7 @@ var timer=0;
 
 function searchFun(){
     console.log(1)
-    debounce(600)
+    debounce(1000)
 }
 function fetchDetails(element){
     fetch(`https://api.openbrewerydb.org/breweries?by_name=${element}&per_page=9`)
