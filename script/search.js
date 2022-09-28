@@ -49,6 +49,7 @@ function displayData(data){
     
     // trMain.innerHTML='';
     for(let i=0;i<data.length;i++){
+        let idPage=data[i].id;
         let tr=document.createElement('TR');
         let th1=document.createElement('TH');
         let th2=document.createElement('TH');
@@ -62,9 +63,17 @@ function displayData(data){
             
             th3.innerText=data[i].city;
             th4.innerText=data[i].state;
-            th5.innerHTML='<button>More Details</button>';
-        tr.append(th1,th2,th3,th4,th5);
+            
+            th5.innerHTML=`<button id=${idPage} onclick="singlePage(this.id)">More Details</button>`;
+            
+            tr.append(th1,th2,th3,th4,th5);
         table.append(tr);
     }
 
+}
+
+function singlePage(id){
+    // console.log(id)
+    localStorage.setItem('id',id);
+    window.location.href='./individual.html';
 }
